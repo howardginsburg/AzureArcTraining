@@ -20,33 +20,14 @@ This the deployment script will create the following assets in Azure:
     - `curl https://raw.githubusercontent.com/howardginsburg/AzureArcTraining/main/deployarcservers.sh | bash`
     - The username is `azurearc` and the password is `LearnArc123!`
 
-## 2. Deploy an Azure Policy
-
-This step assigns several policies to the resource group which ensures that as the Arc Servers come online, the Azure Monitor Agent nd Dependency Agent get installed and are configured to route data to our Log Analytics workspace via the Data Collection rule policy.
-
-1. Access your resource group within the Azure Portal.
-2. Select the 'Policies' blade.
-3. Select the 'Definitions' blade.
-4. Enable the following policies for the Arc Resource Group.
-
-    - Configure Linux Arc-enabled machines to run Azure Monitor Agent
-    - Configure Windows Arc-enabled machines to run Azure Monitor Agent
-    - [Preview]: Deploy a VMInsights Data Collection Rule and Data Collection Rule Association for Arc Machines in the Resource Group
-    - Configure Dependency agent on Azure Arc enabled Linux servers with Azure Monitoring Agent settings
-    - Configure Dependency agent on Azure Arc enabled Windows servers with Azure Monitoring Agent settings
-
-5. Return to the 'Policies' blade of your Resource Group and view the Compliance blade.  You will see that you are 100%.  It can take up to 30 minutes for policies to be checked and remediated.
-
-Note, there are many [built-in](https://docs.microsoft.com/en-us/azure/azure-arc/servers/policy-reference) policy definitions for Azure Arc to consider.
-
-## 3. Access your servers
+## 2. Access your servers
 
 1. Enable JIT for both servers from the Configuration blade for each VM.
 2. Request JIT access for each server from the Connect blade for each VM.
 3. ssh into the Ubuntu VM and let the login script run to disable Azure resources.
 4. rdp into the Windows VM and let the login script run to disable Azure resources.
 
-## 4. Onboard to Azure Arc
+## 3. Onboard to Azure Arc
 
 1. Search for 'Arc' in the Azure Portal and select 'Azure Arc'.
 2. Select the 'Servers' blade.
@@ -60,7 +41,70 @@ Note, there are many [built-in](https://docs.microsoft.com/en-us/azure/azure-arc
 10. Follow the device login instructions.
 11. Verify that the servers now appear as 'Arc Server' within your resource group.
 
-## 5. Azure Automation Setup
+## 4. Deploy an Azure Policy
+
+This step assigns several policies to the resource group which ensures that as the Arc Servers come online, the Azure Monitor Agent and Dependency Agent get installed and are configured to route data to our Log Analytics workspace via the Data Collection rule policy.
+
+For this tutorial, we are going to use policy to enable the Linux VM.  We will manually bring the Windows VM online in later steps.
+
+1. Access your resource group within the Azure Portal.
+2. Select the 'Policies' blade.
+3. Select the 'Definitions' blade.
+4. Enable the following policies for the Arc Resource Group.
+
+    - [Preview]: Deploy a VMInsights Data Collection Rule and Data Collection Rule Association for Arc Machines in the Resource Group
+        - On the Parameters blade
+            - Uncheck 'Only show parameters that need input of review'.
+            - Select your Log Analytics Workspace.
+            - Set 'Enable Processes and Dependencies' to 'true'.
+        - On the Remediation blade
+            - Check 'Create a remediation task'.
+            - Set the System assigned managed identity location to 'West US'.
+    - Configure Linux Arc-enabled machines to run Azure Monitor Agent
+        - On the Remediation blade
+            - Check 'Create a remediation task'.
+            - Set the System assigned managed identity location to 'West US'.
+    - Configure Dependency agent on Azure Arc enabled Linux servers with Azure Monitoring Agent settings
+        - On the Remediation blade
+            - Check 'Create a remediation task'.
+            - Set the System assigned managed identity location to 'West US'.
+
+    The policies that can enable the same behavior for Windows VMs are
+
+    - Configure Windows Arc-enabled machines to run Azure Monitor Agent
+    - Configure Dependency agent on Azure Arc enabled Windows servers with Azure Monitoring Agent settings
+
+5. Return to the 'Policies' blade of your Resource Group and view the Compliance blade.  You will see that you are 100%.  It can take up to 30 minutes for policies to be checked and remediated.
+
+Note, there are many [built-in](https://docs.microsoft.com/en-us/azure/azure-arc/servers/policy-reference) policy definitions for Azure Arc to consider.
+
+## 5. Setup Insights on Windows VM
+
+1. Open your Arc Server for Windows VM in the Portal.
+2. Select 'Insights'
+3. Click on 'Enable'
+4. Select to use the 'Azure Monitor Agent'
+5. Select to create a new data collection rule.
+6. Give your data collection rule a name.
+7. Check to 'Enable processes and dependencies'.
+8. Select your Log Analytics Workspace.
+9. Click on 'Create'.
+10. Click on 'Configure'.
+11. Click on the Extensions blade and notice the AzureMonitorWindowsAgent is being deployed to your Arc VM.
+
+## 6. Monitor Azure Policy for Linux VM Configuration
+
+1. Select your Arc Resource Group in the Portal.
+2. Select Policies.
+3. Select the Compliance blade to view the status of all the policies assigned to the resource group.
+4. Select the Remediation blade to view all the policies that have remediation tasks associated with them.
+5. Select 'Remediation Tasks' to view tasks that are underway.
+
+In time, you will see a new Data Collection Rule resource created in the portal.  You will also see the AzureMonitorLinuxAgent and DependencyAgentLinux extensions were deployed to your Arc Linux VM.
+
+But WAIT!  We now have two Data Collection Rules.  And if I look at the 'Monitoring configuration' on the 'Insights' blade of my Windows VM, the rule I created is no longer mapped to it.  That's the power of the Azure Policy!  You can delete the data collection rule you created if you want.
+
+## TODO 5. Azure Automation Setup
 
 1. Access your Azure Automation account within the Portal.
 2. Select the 'Inventory'.
