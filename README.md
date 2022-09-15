@@ -90,7 +90,7 @@ Note, there are many [built-in](https://docs.microsoft.com/en-us/azure/azure-arc
 8. Select your Log Analytics Workspace.
 9. Click on 'Create'.
 10. Click on 'Configure'.
-11. Click on the Extensions blade and notice the AzureMonitorWindowsAgent is being deployed to your Arc VM.
+11. Click on the Extensions blade and notice the AzureMonitorWindowsAgent and DependencyAgentWindows is being deployed to your Arc VM.
 
 ## 6. Monitor Azure Policy for Linux VM Configuration
 
@@ -114,4 +114,6 @@ But WAIT!  We now have two Data Collection Rules.  And if I look at the 'Monitor
 6. Select your Log Analytics workspace.
 7. Select 'Enable'.
 
-## 6. 
+## Troubleshooting
+
+1. The Azure policy that creates the Data Collection Rule may interfere with the proper deployment of the Extensions for Windows since it will move the mapping.  If this occurs, remove the Extensions and then enable Insights again selecting the data collection rule that the policy created.
