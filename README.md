@@ -104,6 +104,34 @@ In time, you will see a new Data Collection Rule resource created in the portal.
 
 But WAIT!  We now have two Data Collection Rules.  And if I look at the 'Monitoring configuration' on the 'Insights' blade of my Windows VM, the rule I created is no longer mapped to it.  That's the power of the Azure Policy!  You can delete the data collection rule you created if you want.
 
+## 7. Collect Server Logs
+
+The Log Analytics Data Collection Rule that gets created when you enable 'Insights' only captures Performance Counters.  It does not capture the server logs.  Microsoft [documentation](https://docs.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview#data-collection-rule-azure-monitor-agent) recommends creating separate data collection rules for these items.
+
+1. Select your Log Analytics Workspace in the Azure Portal.
+2. Select the 'Agents Management' blade.
+3. Click on 'Data Collection Rules'.
+4. Click on 'Create'.
+5. On the Basics tab
+    - Enter a 'Rule Name'.
+    - Select your Arc Resource Group.
+    - Select the region to 'West US'.
+    - Set the Platform Type to 'Custom'.
+6. On the Resources tab
+    - Click 'Add resources'
+    - Select both of your Arc servers.
+7. On the Collect and Deliver tab
+    - Click on 'Add data source'.
+    - For Data source type select 'Windows Event Logs'.
+    - Check all the check boxes.
+    - On the destination tab, make sure your log analytics workspace is selected.
+    - Click on 'Add data source'.
+    - For Data source type select 'Linux Syslog'.
+    - On the destination tab, make sure your log analytics workspace is selected.
+    - Click on 'Add data source'.
+8. On the Review + create lab
+    - Click on 'Create'
+
 ## 7. Onboard Azure Kubernetes as an Arc Kubernetes resource
 
 1. Open a bash terminal that is not Azure Cloud Shell.
@@ -128,6 +156,15 @@ But WAIT!  We now have two Data Collection Rules.  And if I look at the 'Monitor
 7. Select the 'Extensions' blade and see that the azuremonitor-containers extension is installing.
 
 Note, it will take some time before the metrics show up in the 'Insights' blade.
+
+## 9. Defender for Cloud
+
+1. Search for Defender for Cloud.
+1. Select the 'Environment Settings' blade.
+1. Select your Azure subscription.
+1. Set the 'Servers' and 'Containers' options to 'On'.
+
+?? The AKS based cluster is not showing up as needing Defender installed.  Why? Freshness interval of defender?
 
 ## TODO 5. Azure Automation Setup
 
