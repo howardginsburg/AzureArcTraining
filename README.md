@@ -17,7 +17,7 @@ This the deployment script will create the following assets in Azure:
 
 1. From an Azure Cloud Shell bash session
 
-    - `curl https://raw.githubusercontent.com/howardginsburg/AzureArcTraining/main/deployarcservers.sh | bash`
+    - `curl https://raw.githubusercontent.com/howardginsburg/AzureArcTraining/main/deploy.sh | bash`
     - The username is `azurearc` and the password is `LearnArc123!`
 
 ## 2. Access your servers
@@ -27,7 +27,7 @@ This the deployment script will create the following assets in Azure:
 3. ssh into the Ubuntu VM and let the login script run to disable Azure resources.
 4. rdp into the Windows VM and let the login script run to disable Azure resources.
 
-## 3. Onboard to Azure Arc
+## 3. Onboard Servers to Azure Arc
 
 1. Search for 'Arc' in the Azure Portal and select 'Azure Arc'.
 2. Select the 'Servers' blade.
@@ -41,7 +41,7 @@ This the deployment script will create the following assets in Azure:
 10. Follow the device login instructions.
 11. Verify that the servers now appear as 'Arc Server' within your resource group.
 
-## 4. Deploy an Azure Policy
+## 4. Deploy an Azure Policy for your Servers.
 
 This step assigns several policies to the resource group which ensures that as the Arc Servers come online, the Azure Monitor Agent and Dependency Agent get installed and are configured to route data to our Log Analytics workspace via the Data Collection rule policy.
 
@@ -78,7 +78,7 @@ For this tutorial, we are going to use policy to enable the Linux VM.  We will m
 
 Note, there are many [built-in](https://docs.microsoft.com/en-us/azure/azure-arc/servers/policy-reference) policy definitions for Azure Arc to consider.
 
-## 5. Setup Insights on Windows VM
+## 5. Setup Insights on Windows Server
 
 1. Open your Arc Server for Windows VM in the Portal.
 2. Select 'Insights'
@@ -92,7 +92,7 @@ Note, there are many [built-in](https://docs.microsoft.com/en-us/azure/azure-arc
 10. Click on 'Configure'.
 11. Click on the Extensions blade and notice the AzureMonitorWindowsAgent and DependencyAgentWindows is being deployed to your Arc VM.
 
-## 6. Monitor Azure Policy for Linux VM Configuration
+## 6. Monitor Azure Policy for Linux VMs
 
 1. Select your Arc Resource Group in the Portal.
 2. Select Policies.
@@ -104,6 +104,31 @@ In time, you will see a new Data Collection Rule resource created in the portal.
 
 But WAIT!  We now have two Data Collection Rules.  And if I look at the 'Monitoring configuration' on the 'Insights' blade of my Windows VM, the rule I created is no longer mapped to it.  That's the power of the Azure Policy!  You can delete the data collection rule you created if you want.
 
+## 7. Onboard Azure Kubernetes as an Arc Kubernetes resource
+
+1. Open a bash terminal that is not Azure Cloud Shell.
+2. Get your credentials.
+    `az aks get-credentials --resource-group <Your Resource Group> --name <Your Cluster>`
+3. Install the connectedk8s extension
+    `az extension add --name connectedk8s`
+4. Install Helm
+    `curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3`
+    `bash get_helm.sh`
+5. Connect your cluster
+    `az connectedk8s connect --name arcakscluster --resource-group <Your Resource Group`
+
+## 8. Enable Insights on Arc Kubernetes
+
+1. Open your Kubernetes Arc Cluster in the Azure Portal.
+2. Select the 'Insights' blade.
+3. Select configure 'Azure Monitor'
+4. Select your Log Analytics Workspace.
+5. Check 'Use managed identity'.
+6. Select Configure.
+7. Select the 'Extensions' blade and see that the azuremonitor-containers extension is installing.
+
+Note, it will take some time before the metrics show up in the 'Insights' blade.
+
 ## TODO 5. Azure Automation Setup
 
 1. Access your Azure Automation account within the Portal.
@@ -113,6 +138,18 @@ But WAIT!  We now have two Data Collection Rules.  And if I look at the 'Monitor
 5. Select the 'Update Management' blade.
 6. Select your Log Analytics workspace.
 7. Select 'Enable'.
+
+## Resource Cleanup
+
+### Option 1: Delete the Resource Groups
+
+The easiest thing to get rid of all the resources is just to delete the two Resource Groups created as part of this exercise.
+
+### Option 2: Stop the resources
+
+1. On the 'Overview' blade for each Azure server click 'Stop'.
+2. You can start/stop your AKS cluster with the following command
+    `az aks <start or stop> --name myAKSCluster --resource-group myResourceGroup` 
 
 ## Troubleshooting
 
