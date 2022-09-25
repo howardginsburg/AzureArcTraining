@@ -8,6 +8,12 @@ location="westus"
 
 rand=$((100 + $RANDOM % 1000))
 
+#Enable azure resource providers.
+az provider register --namespace 'Microsoft.HybridCompute'
+az provider register --namespace 'Microsoft.GuestConfiguration'
+az provider register --namespace 'Microsoft.HybridConnectivity'
+
+
 #Create a resource group.
 azureResourceGroup="arcdemo$rand-azure"
 arcResourceGroup="arcdemo$rand-arc"
@@ -44,5 +50,8 @@ rm windowslogin.ps1
 az monitor log-analytics workspace create -g $arcResourceGroup -n "arcworkspace$rand"
 az automation account create --automation-account-name "arcautomation$rand" --resource-group $arcResourceGroup
 
-#Create a 3 node AKS instance.
-az aks create -g $azureResourceGroup -n arcaks$rand -u $user --node-count 3 --generate-ssh-keys
+#Create a 1 node AKS instance.
+az aks create -g $azureResourceGroup -n arcaks$rand -u $user --node-count 1 --generate-ssh-keys
+
+
+
