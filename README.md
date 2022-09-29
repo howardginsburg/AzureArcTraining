@@ -192,7 +192,6 @@ The easiest thing to get rid of all the resources is just to delete the two Reso
 
 1. You can start/stop your Azure VMs with the following command
     `az vm <start or stop> --ids $(az vm list --resource-group <Your Resource Group> --query "[].id" -o tsv )`
-az vm stop --ids $(az vm list --resource-group ARCBOX --query "[].id" -o tsv )
 
 1. You can start/stop your AKS cluster with the following command
     `az aks <start or stop> --name <Your AKS Cluster Name> --resource-group <Your Resource Group>`
