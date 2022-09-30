@@ -8,10 +8,14 @@ location="westus"
 
 rand=$((100 + $RANDOM % 1000))
 
+az config set extension.use_dynamic_install=yes_without_prompt
+
 #Enable azure resource providers.
-az provider register --namespace 'Microsoft.HybridCompute'
-az provider register --namespace 'Microsoft.GuestConfiguration'
-az provider register --namespace 'Microsoft.HybridConnectivity'
+az provider register --namespace 'Microsoft.HybridCompute' --wait
+az provider register --namespace 'Microsoft.GuestConfiguration' --wait
+az provider register --namespace 'Microsoft.HybridConnectivity' --wait
+az provider register --namespace 'Microsoft.Insights' --wait
+az provider register --namespace 'Microsoft.Kubernetes' --wait
 
 
 #Create a resource group.
@@ -46,12 +50,14 @@ az vm run-command invoke  --command-id RunPowerShellScript --name "arcwinvm$rand
     --parameters "adminUserName=$user"
 rm windowslogin.ps1
 
+#Create a 1 node AKS instance.
+az aks create -g $azureResourceGroup -n arcaks$rand -u $user --node-count 1 --generate-ssh-keys --node-vm-size Standard_DS2_v2
+
 #Create an instance of log analytics and azure automation to speed arc setup by the user.
 az monitor log-analytics workspace create -g $arcResourceGroup -n "arcworkspace$rand"
 az automation account create --automation-account-name "arcautomation$rand" --resource-group $arcResourceGroup
 
-#Create a 1 node AKS instance.
-az aks create -g $azureResourceGroup -n arcaks$rand -u $user --node-count 1 --generate-ssh-keys
+
 
 
 
