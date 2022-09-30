@@ -1,6 +1,6 @@
-# Azure Arc for Servers
+# Azure Arc for Servers and Kubernetes
 
-The purpose of this repo is to serve as a quickstart for hands on training for Azure Arc for Servers.  It will setup two Azure vms and create login scripts that will reconfigure them to appear as non-Azure resources.
+The purpose of this repo is to serve as a quickstart for hands on training for Azure Arc for Servers and Kubernetes.
 
 Note: As Arc is meant to be used with on-prem environments, leveraging Azure is not without certain issues.  For example, the Dependency Agent that gets deployed when you enable Insights on your server will fail on an Azure Ubuntu 20.04 VM.  It works fine when deployed against a regular Ubuntu 20.04 instance.
 
@@ -12,6 +12,7 @@ This the deployment script will create the following assets in Azure:
 
 - Ubuntu 18.04 server
 - Windows 2022 server
+- Azure Kubernetes Service
 - Log Analytics Workspace
 - Azure Automation Account
 
