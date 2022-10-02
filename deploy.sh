@@ -1,7 +1,7 @@
 #Variables
 user="azurearc"
 password='LearnArc123!'
-location="westus"
+location="southcentralus" #"westus"
 
 #Ask for the IP Address so we can define nsg rules.
 #read -p "What's your IP Address (https://whatismyipaddress.com/): " ipaddress
