@@ -206,18 +206,33 @@ Note, it will take some time before data shows up.
 Note, it will take some time before the assessment is run and data shows up.  Once you see data, you can schedule an update.  Also look at the extensions on your Arc VM's and see that the Update extension has been installed.
 
 ## 9. Onboard Azure Kubernetes as an Arc Kubernetes resource
-
-1. Open a bash terminal that is not Azure Cloud Shell.
-2. Get your credentials.
-    `az aks get-credentials --resource-group <Your Resource Group> --name <Your Cluster>`
-3. Install the connectedk8s extension
-    `az extension add --name connectedk8s`
-4. Install Helm
-    `curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3`
-    `bash get_helm.sh`
-5. Connect your cluster
-    `az connectedk8s connect --name arcakscluster --resource-group <Your Resource Group>`
-
+1. Ensure Docker for Desktop is intsalled on your machine[ Windows or Linux Machines - Recap:Docker Day ].
+2. Enable Kubernetes cluster Docker for Desktop [kubeconfig created and pointing to a cluster].
+3. Make sure Azure CLI & extensions are installed on your machine [ az extension add --name connectedk8s].
+4. Login to Azure & set your subscription( az login, az account set -s 'your subscription').
+5. Register providers for Azure Arc-enabled Kubernetes
+	- az provider register --namespace Microsoft.Kubernetes
+	- az provider register --namespace Microsoft.KubernetesConfiguration
+	- az provider register --namespace Microsoft.ExtendedLocation
+6. Install Helm 3 [https://helm.sh/docs/intro/install/].
+7. Deploy and run local Kubernetes cluster - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
+8. Login to K3S cluster and download config file
+9. Make sure local kubeconfig file and context pointing to cluster to be connected [K3S in this case].
+10. Create a Resource Group [Under which you create Arc enabled Kubernetes].
+	- az group create --name 'your resource group name' --location EastUS --output table
+11. Connect Your Kubernets to Azure via Azure Arc.
+	-  az connectedk8s connect --name 'your arc enabled cluster name' --resource-group 'your resource group name'
+12. Go to Azure portal and check 
+	- check Azure Arc agents as pods & deployments
+	- kubectl get deployments,pods -n azure-arc
+13. Connect Azure AKS Control Pane to K3S
+	- Option#1: Azure Active Directory authentication option
+	- Option#2: Service account token authentication option
+	- Ref:https://learn.microsoft.com/en-us/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option
+	- Will use Option#2 & create a token (Powershell or CLI)
+14.Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.11 -Option#2.
+	- Optional: Try any of the Kubernetes day lab using the Azure Control Pane for Kubernetes.
+	
 ## 10. Enable Insights on Arc Kubernetes
 
 1. Open your Kubernetes Arc Cluster in the Azure Portal.
