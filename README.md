@@ -12,7 +12,6 @@ This the deployment script will create the following assets in Azure:
 
 - Ubuntu 18.04 server
 - Windows 2022 server
-- Azure Kubernetes Service
 - Log Analytics Workspace
 - Azure Automation Account
 
@@ -205,7 +204,7 @@ Note, it will take some time before data shows up.
 
 Note, it will take some time before the assessment is run and data shows up.  Once you see data, you can schedule an update.  Also look at the extensions on your Arc VM's and see that the Update extension has been installed.
 
-## 11. Onboard Azure Kubernetes as an Arc Kubernetes resource
+## 11. Onboard Kubernetes as an Arc Kubernetes resource
 
 1. Ensure Docker for Desktop is intsalled on your machine[ Windows or Linux Machines - Recap:Docker Day ].
 2. Enable Kubernetes cluster Docker for Desktop [kubeconfig created and pointing to a cluster].
@@ -217,8 +216,8 @@ Note, it will take some time before the assessment is run and data shows up.  On
     - az provider register --namespace Microsoft.KubernetesConfiguration
     - az provider register --namespace Microsoft.ExtendedLocation
 
-6. Install Helm 3 [https://helm.sh/docs/intro/install/].
-7. Deploy and run local Kubernetes cluster - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
+6. Install [Helm 3]([https://helm.sh/docs/intro/install/]).
+7. [Deploy](https://github.com/cloudk8swizard/csuazk8s/wiki/Lab-1-K3S-deployment-to-Azure) a Kubernetes cluster if needed - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
 8. Login to K3S cluster and download config file
 9. Make sure local kubeconfig file and context pointing to cluster to be connected [K3S in this case].
 10. Create a Resource Group [Under which you create Arc enabled Kubernetes].
@@ -237,9 +236,8 @@ Note, it will take some time before the assessment is run and data shows up.  On
 13. Connect Azure AKS Control Pane to K3S
 
     - Option#1: Azure Active Directory authentication option
-    - Option#2: Service account token authentication option
-    - Ref:https://learn.microsoft.com/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option
-    - Will use Option#2 & create a token (Powershell or CLI)
+    - Option#2: [Service account token](https://learn.microsoft.com/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option) authentication option
+    - We will use Option#2 & create a token (Powershell or CLI)
 
 14. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.11 -Option#2.
 
