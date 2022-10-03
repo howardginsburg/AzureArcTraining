@@ -169,6 +169,8 @@ The Log Analytics Agent and Azure Monitor Agent do not capture server logs by de
 
 ## 9. Optional - Inventory and Change tracking
 
+In this lab, we will explore the new Update Management capabilities in Azure.  This feature is currently in preview and not supported in all [regions](https://learn.microsoft.com/azure/update-center/support-matrix?tabs=azurearc%2Cazurevm-os#supported-regions).  Thus, our Arc VM's are being configured to map to South Central US.
+
 1. Open your Azure Automation account in the Portal.
 2. Select the 'Inventory' blade.
 3. Select your Log Analytics Workspace.
@@ -179,7 +181,7 @@ The Log Analytics Agent and Azure Monitor Agent do not capture server logs by de
 8. Add your two vms.
 9. Click 'Enable'.
 
-Note, it will take some time before the data shows up!
+Note, it will take some time before data shows up.
 
 ## 10. Optional - Update Management
 
@@ -192,8 +194,16 @@ Note, it will take some time before the data shows up!
 7. Select 'Enable on selected machines'.
 8. Add your two vms.
 9. Click 'Enable'.
+10. Using the Azure Portal search bar, open the Update Management Center.
+11. Select the 'Machines' blade.
+12. Check each of your arc vms and click 'Update settings'.
+13. Check 'Periodic assessment'
+14. Check 'Enable Periodic assessment(every 24 hours)'
+15. Click 'Next' and see your two arc vms listed.
+16. Click 'Next'.
+17. Click 'Review and change'.
 
-Note, it will take some time before the data shows up!
+Note, it will take some time before the assessment is run and data shows up.  Once you see data, you can schedule an update.  Also look at the extensions on your Arc VM's and see that the Update extension has been installed.
 
 ## 9. Onboard Azure Kubernetes as an Arc Kubernetes resource
 
