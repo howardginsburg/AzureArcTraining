@@ -213,6 +213,8 @@ Note, it will take some time before the data shows up!
 11. Connect Your Kubernets to Azure via Azure Arc.
 	-  az connectedk8s connect --name 'your arc enabled cluster name' --resource-group 'your resource group name'
 12. Go to Azure portal and check 
+	- check Azure Arc agents as pods & deployments
+	- kubectl get deployments,pods -n azure-arc
 13. Connect Azure AKS Control Pane to K3S
 	- Option#1: Azure Active Directory authentication option
 	- Option#2: Service account token authentication option
