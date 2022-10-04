@@ -219,7 +219,14 @@ Note, it will take some time before the assessment is run and data shows up.  On
 6. Install [Helm 3]([https://helm.sh/docs/intro/install/]).
 7. [Deploy](https://github.com/cloudk8swizard/csuazk8s/wiki/Lab-1-K3S-deployment-to-Azure) a Kubernetes cluster if needed - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
 8. Login to K3S cluster and download config file
-9. Make sure local kubeconfig file and context pointing to cluster to be connected [K3S in this case].
+9. Make sure local kubeconfig file get entry of the K3S cluster configuration downloaded.
+
+    - under folder /home/.kube, rename config.file as config_org.file # Have a clean and independant setup
+    - create an empty file named config.file
+    - copy the content of the down loaded k3s file[quickstart-azure-custom.YAML] to .kube/config.file
+    - restart AKS using Docker for Desktop & ensure it starts
+    - kubectl config get-contexts [quickstart-azure-custom]
+    
 10. Create a Resource Group [Under which you create Arc enabled Kubernetes].
 
     - az group create --name 'your resource group name' --location EastUS --output table
@@ -228,7 +235,7 @@ Note, it will take some time before the assessment is run and data shows up.  On
 
     - az connectedk8s connect --name 'your arc enabled cluster name' --resource-group 'your resource group name'
 
-12. Go to Azure portal and check
+12. Go to Azure portal check arc enabled AKS is creaed and also check
 
     - check Azure Arc agents as pods & deployments
     - kubectl get deployments,pods -n azure-arc
