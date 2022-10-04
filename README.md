@@ -215,14 +215,12 @@ Note, it will take some time before the assessment is run and data shows up.  On
 4. Login to Azure & set your subscription( az login, az account set -s 'your subscription').
 5. Install [Helm 3](https://helm.sh/docs/intro/install/).
 6. [Deploy](https://github.com/cloudk8swizard/csuazk8s/wiki/Lab-1-K3S-deployment-to-Azure) a Kubernetes cluster if needed - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
-7. Login to K3S cluster and download config file
-8. Make sure local kubeconfig file get entry of the K3S cluster configuration downloaded.
+7. Login to K3S cluster and download config file [Ex.quickstart-azure-custom.YAML]
+8. Make sure local kubectl [client] points to your K3S cluster.
 
-    - under folder /home/.kube, rename config.file as config_org.file # Have a clean and independant setup
-    - create an empty file named config.file
-    - copy the content of the downloaded k3s file quickstart-azure-custom.YAML to .kube/config.file
-    - restart Kubernetes using Docker for Desktop & ensure it starts
-    - kubectl config get-contexts [quickstart-azure-custom]
+    - Either move and rename the file downloaded[quickstart-azure-custom.YAML]to be your default kubeconfig context [home/.kube/config.file]
+    - or point kubectl to use the downloaded context.[Refer kubernetes day Lab 1](https://jamesdefabia.github.io/docs/user-guide/sharing-clusters/).
+    - Now you should be able to execute any kubectl command at this point [Ex.kubectl config get-contexts]
 
 9. Connect Your Kubernetes to Azure via Azure Arc.
 
