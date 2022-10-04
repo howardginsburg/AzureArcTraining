@@ -16,6 +16,8 @@ az provider register --namespace 'Microsoft.GuestConfiguration' --wait
 az provider register --namespace 'Microsoft.HybridConnectivity' --wait
 az provider register --namespace 'Microsoft.Insights' --wait
 az provider register --namespace 'Microsoft.Kubernetes' --wait
+az provider register --namespace 'Microsoft.KubernetesConfiguration' --wait
+az provider register --namespace 'Microsoft.ExtendedLocation' --wait
 
 
 #Create a resource group.
