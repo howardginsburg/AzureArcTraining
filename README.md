@@ -206,7 +206,7 @@ Note, it will take some time before the assessment is run and data shows up.  On
 
 ## 11. Onboard Kubernetes as an Arc Kubernetes resource
 
-1. Ensure Docker for Desktop is intsalled on your machine[ Windows or Linux Machines - Recap:Docker Day ].
+1. Ensure Docker for Desktop is installed on your machine[ Windows or Linux Machines - Recap:Docker Day ].
 2. Enable Kubernetes cluster Docker for Desktop [kubeconfig created and pointing to a cluster].
 3. Make sure Azure CLI & extensions are installed on your machine [ az extension add --name connectedk8s].
 4. Login to Azure & set your subscription( az login, az account set -s 'your subscription').
@@ -216,7 +216,7 @@ Note, it will take some time before the assessment is run and data shows up.  On
     - az provider register --namespace Microsoft.KubernetesConfiguration
     - az provider register --namespace Microsoft.ExtendedLocation
 
-6. Install [Helm 3]([https://helm.sh/docs/intro/install/]).
+6. Install [Helm 3](https://helm.sh/docs/intro/install/).
 7. [Deploy](https://github.com/cloudk8swizard/csuazk8s/wiki/Lab-1-K3S-deployment-to-Azure) a Kubernetes cluster if needed - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
 8. Login to K3S cluster and download config file
 9. Make sure local kubeconfig file get entry of the K3S cluster configuration downloaded.
