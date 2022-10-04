@@ -58,6 +58,9 @@ We will use a service principal to onboard resources into Arc.
 9. Access your server and save the contents as either a .sh (Linux) or ps1 (Windows) file.
 10. Run your file.
 11. Verify that the servers now appear as 'Arc Server' within your resource group.
+12. On your linux vm, running the following command to see what the Arc Agent is communicating with.
+
+    - `sudo lsof -ai -p $(pidof himds)`
 
 ## 5. Deploy an Azure Policy for your Servers
 
