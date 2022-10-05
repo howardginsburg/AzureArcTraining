@@ -209,24 +209,19 @@ Note, it will take some time before the assessment is run and data shows up.  On
 
 ## 11. Onboard Kubernetes as an Arc Kubernetes resource
 
-Note:Make sure you have followed the prerequiste instructions and done your set up accordingly.[Refer]()
-1. Connect Your Kubernetes to Azure via Azure Arc.
+Note:Make sure you have followed the [prerequiste](https://github.com/howardginsburg/AzureArcTraining/wiki/Arc-Day-Prerequisites) instructions and set up the environment accordingly.
 
+1. Connect Your Kubernetes to Azure via Azure Arc.
       - az connectedk8s connect -g 'your arc resource group' -n 'your arc enabled cluster name' --kube-config quickstart-azure-custom.YAML --kube-context quickstart-azure-custom
 
 2. Go to Azure portal check arc enabled kubernetes is created and also check
-
     - check Azure Arc agents as pods & deployments
     - kubectl get deployments,pods -n azure-arc
-
 3. Connect Azure Kubernetes Control Pane to K3S
-
     - Option#1: Azure Active Directory authentication option
     - Option#2: [Service account token](https://learn.microsoft.com/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option) authentication option
     - We will use Option#2 & create a token (Powershell or CLI)
-
-4. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.7 -Option#2.
-
+4. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.3 -Option#2.
     - Optional: Try any of the Kubernetes day lab using the Azure Control Pane for Kubernetes.
 
 ## 12. Enable Insights on Arc Kubernetes
