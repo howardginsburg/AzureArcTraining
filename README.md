@@ -209,35 +209,26 @@ Note, it will take some time before the assessment is run and data shows up.  On
 
 ## 11. Onboard Kubernetes as an Arc Kubernetes resource
 
-1. Ensure Docker for Desktop is installed on your machine. [ Windows or Linux Machines - Recap:Docker Day ].
-2. Enable Kubernetes cluster Docker for Desktop [kubeconfig created and pointing to a cluster].
-3. Make sure Azure CLI & extensions are installed on your machine [ az extension add --name connectedk8s].
-4. Login to Azure & set your subscription( az login, az account set -s 'your subscription').
-5. Install [Helm 3](https://helm.sh/docs/intro/install/).
-6. [Deploy](https://github.com/cloudk8swizard/csuazk8s/wiki/Lab-1-K3S-deployment-to-Azure) a Kubernetes cluster if needed - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
-7. Login to K3S cluster and download config file [Ex.quickstart-azure-custom.YAML]
-8. Make sure local kubectl [client] points to your K3S cluster.
+1. Make sure Azure CLI & extensions are installed on your machine [ az extension add --name connectedk8s].
+2. Install [Helm 3](https://helm.sh/docs/intro/install/).
+3. [Deploy](https://github.com/cloudk8swizard/csuazk8s/wiki/Lab-1-K3S-deployment-to-Azure) a Kubernetes cluster if needed - [K3S  - Recap Kubernetes Day, if not deployed,run existing Git Action workflow ].
+4. Login to K3S cluster and download config file [Ex.quickstart-azure-custom.YAML]
+5. Connect Your Kubernetes to Azure via Azure Arc.
 
-    - Either move and rename the file downloaded[quickstart-azure-custom.YAML]to be your default kubeconfig context [home/.kube/config.file]
-    - or point kubectl to use the downloaded context.[Refer kubernetes day Lab 1](https://jamesdefabia.github.io/docs/user-guide/sharing-clusters/).
-    - Now you should be able to execute any kubectl command at this point [Ex.kubectl config get-contexts]
+      - az connectedk8s connect -g 'your arc resource group' -n 'your arc enabled cluster name' --kube-config quickstart-azure-custom.YAML --kube-context quickstart-azure-custom
 
-9. Connect Your Kubernetes to Azure via Azure Arc.
-
-    - az connectedk8s connect --name 'your arc enabled cluster name' --resource-group 'your arc resource group'
-
-10. Go to Azure portal check arc enabled kubernetes is created and also check
+6. Go to Azure portal check arc enabled kubernetes is created and also check
 
     - check Azure Arc agents as pods & deployments
     - kubectl get deployments,pods -n azure-arc
 
-11. Connect Azure Kubernetes Control Pane to K3S
+7. Connect Azure Kubernetes Control Pane to K3S
 
     - Option#1: Azure Active Directory authentication option
     - Option#2: [Service account token](https://learn.microsoft.com/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option) authentication option
     - We will use Option#2 & create a token (Powershell or CLI)
 
-12. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.11 -Option#2.
+8. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.7 -Option#2.
 
     - Optional: Try any of the Kubernetes day lab using the Azure Control Pane for Kubernetes.
 
