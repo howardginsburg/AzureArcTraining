@@ -212,7 +212,7 @@ Note, it will take some time before the assessment is run and data shows up.  On
 Note:Make sure you have followed the [prerequiste](https://github.com/howardginsburg/AzureArcTraining/wiki/Arc-Day-Prerequisites) instructions and set up the environment accordingly.
 
 1. Connect Your Kubernetes to Azure via Azure Arc.
-      - az connectedk8s connect -g 'your arc resource group' -n 'your arc enabled cluster name' --kube-config quickstart-azure-custom.YAML --kube-context quickstart-azure-custom
+      - az connectedk8s connect -g your arc resource group -n your arc enabled cluster name --kube-config quickstart-azure-custom.YAML 
 
 2. Go to Azure portal check arc enabled kubernetes is created and also check
     - check Azure Arc agents as pods & deployments
