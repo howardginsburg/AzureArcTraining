@@ -171,8 +171,6 @@ The Log Analytics Agent and Azure Monitor Agent do not capture server logs by de
 
 ## 9. Optional - Inventory and Change tracking
 
-In this lab, we will explore the new Update Management capabilities in Azure.  This feature is currently in preview and not supported in all [regions](https://learn.microsoft.com/azure/update-center/support-matrix?tabs=azurearc%2Cazurevm-os#supported-regions).  Thus, our Arc VM's are being configured to map to South Central US.
-
 1. Open your Azure Automation account in the Portal.
 2. Select the 'Inventory' blade.
 3. Select your Log Analytics Workspace.
@@ -186,6 +184,8 @@ In this lab, we will explore the new Update Management capabilities in Azure.  T
 Note, it will take some time before data shows up.
 
 ## 10. Optional - Update Management
+
+In this lab, we will explore the new Update Management capabilities in Azure.  This feature is currently in preview and not supported in all [regions](https://learn.microsoft.com/azure/update-center/support-matrix?tabs=azurearc%2Cazurevm-os#supported-regions).  Thus, our Arc VM's are being configured to map to South Central US.
 
 1. Open your Azure Automation account in the Portal.
 2. Select the 'Update Management' blade.
@@ -212,16 +212,22 @@ Note, it will take some time before the assessment is run and data shows up.  On
 Note:Make sure you have followed the [prerequiste](https://github.com/howardginsburg/AzureArcTraining/wiki/Arc-Day-Prerequisites) instructions and set up the environment accordingly.
 
 1. Connect Your Kubernetes to Azure via Azure Arc.
-      - az connectedk8s connect -g 'your arc resource group' -n 'your arc enabled cluster name' --kube-config quickstart-azure-custom.YAML --kube-context quickstart-azure-custom
+  
+    - `az connectedk8s connect -g <your arc resource group> -n <your arc enabled cluster name> --kube-config quickstart-azure-custom.YAML`
 
 2. Go to Azure portal check arc enabled kubernetes is created and also check
+
     - check Azure Arc agents as pods & deployments
     - kubectl get deployments,pods -n azure-arc
+
 3. Connect Azure Kubernetes Control Pane to K3S
+
     - Option#1: Azure Active Directory authentication option
     - Option#2: [Service account token](https://learn.microsoft.com/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option) authentication option
     - We will use Option#2 & create a token (Powershell or CLI)
+
 4. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.3 -Option#2.
+
     - Optional: Try any of the Kubernetes day lab using the Azure Control Pane for Kubernetes.
 
 ## 12. Enable Insights on Arc Kubernetes
