@@ -14,6 +14,7 @@ This the deployment script will create the following assets in Azure:
 - Windows 2022 server
 - Log Analytics Workspace
 - Azure Automation Account
+- Azure Kubernetes Service
 
 1. From an Azure Cloud Shell bash session
 
@@ -140,7 +141,7 @@ Note, there are many [built-in](https://docs.microsoft.com/azure/azure-arc/serve
 4. Select the Remediation blade to view all the policies that have remediation tasks associated with them.
 5. Select 'Remediation Tasks' to view tasks that are underway.
 
-## 8. Optional - Collect Server Logs
+## 8. Collect Server Logs
 
 The Log Analytics Agent and Azure Monitor Agent do not capture server logs by default and can be enabled if you need them.
 
@@ -169,7 +170,7 @@ The Log Analytics Agent and Azure Monitor Agent do not capture server logs by de
     7. On the Collect and Deliver tab
         - Click on 'Add data source' and select the items you're interested in collecting.
 
-## 9. Optional - Inventory and Change tracking
+## 9. Inventory and Change tracking
 
 1. Open your Azure Automation account in the Portal.
 2. Select the 'Inventory' blade.
@@ -183,7 +184,7 @@ The Log Analytics Agent and Azure Monitor Agent do not capture server logs by de
 
 Note, it will take some time before data shows up.
 
-## 10. Optional - Update Management
+## 10. Update Management
 
 In this lab, we will explore the new Update Management capabilities in Azure.  This feature is currently in preview and not supported in all [regions](https://learn.microsoft.com/azure/update-center/support-matrix?tabs=azurearc%2Cazurevm-os#supported-regions).  Thus, our Arc VM's are being configured to map to South Central US.
 
@@ -209,30 +210,43 @@ Note, it will take some time before the assessment is run and data shows up.  On
 
 ## 11. Onboard Kubernetes as an Arc Kubernetes resource
 
-Note:Make sure you have followed the [prerequiste](https://github.com/howardginsburg/AzureArcTraining/wiki/Arc-Day-Prerequisites) instructions and set up the environment accordingly.
+### Option 1 - Use an existing Kubernetes instance
 
-1. Connect Your Kubernetes to Azure via Azure Arc.
-<<<<<<< HEAD
-  
-    - `az connectedk8s connect -g <your arc resource group> -n <your arc enabled cluster name> --kube-config quickstart-azure-custom.YAML`
-=======
-      - az connectedk8s connect -g your arc resource group -n your arc enabled cluster name --kube-config quickstart-azure-custom.YAML 
->>>>>>> c37bd0a9503a50b418fab8a1e8cf8638ec7b742f
+    Note:Make sure you have followed the [prerequiste](https://github.com/howardginsburg/AzureArcTraining/wiki/Arc-Day-Prerequisites) instructions and set up the environment accordingly.
+    
+    1. Connect Your Kubernetes to Azure via Azure Arc.
+      
+        - `az connectedk8s connect -g <your arc resource group> -n <your arc enabled cluster name> --kube-config quickstart-azure-custom.YAML`
+    
+    2. Go to Azure portal check arc enabled kubernetes is created and also check
+    
+        - check Azure Arc agents as pods & deployments
+        - kubectl get deployments,pods -n azure-arc
+    
+    3. Connect Azure Kubernetes Control Pane to K3S
+    
+        - Option#1: Azure Active Directory authentication option
+        - Option#2: [Service account token](https://learn.microsoft.com/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option) authentication option
+        - We will use Option#2 & create a token (Powershell or CLI)
+    
+    4. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.3 -Option#2.
+    
+        - Optional: Try any of the Kubernetes day lab using the Azure Control Pane for Kubernetes.
 
-2. Go to Azure portal check arc enabled kubernetes is created and also check
+### Option 2 - Use Azure Kubernetes Service
 
-    - check Azure Arc agents as pods & deployments
-    - kubectl get deployments,pods -n azure-arc
-
-3. Connect Azure Kubernetes Control Pane to K3S
-
-    - Option#1: Azure Active Directory authentication option
-    - Option#2: [Service account token](https://learn.microsoft.com/azure/azure-arc/kubernetes/cluster-connect?tabs=azure-powershell#service-account-token-authentication-option) authentication option
-    - We will use Option#2 & create a token (Powershell or CLI)
-
-4. Go to Azure portal connect to Azure Kubernetes control pane using token generated in Step.3 -Option#2.
-
-    - Optional: Try any of the Kubernetes day lab using the Azure Control Pane for Kubernetes.
+    1. Open a bash terminal that is not Azure Cloud Shell.
+    2. Register the Kubernetes resource provider
+        `az provider register --namespace 'Microsoft.Kubernetes'`
+    3. Get your credentials.
+        `az aks get-credentials --resource-group <Your Resource Group> --name <Your Cluster>`
+    4. Install the connectedk8s extension
+        `az extension add --name connectedk8s`
+    5. Install Helm
+        `curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3`
+        `bash get_helm.sh`
+    6. Connect your cluster
+        `az connectedk8s connect --name arcakscluster --resource-group <Your Resource Group>`
 
 ## 12. Enable Insights on Arc Kubernetes
 
