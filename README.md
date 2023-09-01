@@ -47,19 +47,20 @@ We will use a service principal to onboard resources into Arc.
 ## 4. Onboard Servers to Azure Arc
 
 1. Search for 'Arc' in the Azure Portal and select 'Azure Arc'.
-2. Select the 'Servers' blade.
-3. Select '+ Add'.
-4. Select 'Generate Script' from 'Add multiple servers'.
-5. Select your Resource Group and correct operating system.
-6. Select your Service Principal.
-7. Fill in the Resource Tags.
-8. Copy the contents of the script.
+2. Select the 'Machines' blade.
+3. Select '+ Add/Create'.
+4. Select 'Add a machine'.
+5. Under 'Add multiple servers' select 'Generate Script'
+6. Select your Resource Group and correct operating system.
+7. Select your Service Principal.
+8. Fill in the Resource Tags.
+9. Copy the contents of the script.
     - Replace the secret with the password of your service principal.
     - Note: For the Windows script, there is a bug with what gets generated.  The $servicePrincipalClientId and $servicePrincipalSecret have the semicolon inside the quote instead of at the end.
-9. Access your server and save the contents as either a .sh (Linux) or ps1 (Windows) file.
-10. Run your file.
-11. Verify that the servers now appear as 'Arc Server' within your resource group.
-12. On your linux vm, running the following command to see what the Arc Agent is communicating with.
+10. Access your server and save the contents as either a .sh (Linux) or ps1 (Windows) file.
+11. Run your file.
+12. Verify that the servers now appear as 'Machine - Azure Arc' within your resource group.
+13. On your linux vm, running the following command to see what the Arc Agent is communicating with.
 
     - `sudo lsof -ai -p $(pidof himds)`
 
